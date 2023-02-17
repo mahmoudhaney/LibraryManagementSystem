@@ -21,6 +21,8 @@ class Book(models.Model):
     pages = models.IntegerField(null=True, blank=True)
     price = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
     retal_price_day = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    retal_peroid =  models.IntegerField(null=True, blank=True)
+    total_retal =  models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
     active = models.BooleanField(default=True)
     status = models.CharField(max_length=50, choices=book_status, null=True, blank=True)
     category_id = models.ForeignKey(Category, on_delete=models.PROTECT, null=True, blank=True)

@@ -26,7 +26,7 @@
                 <div class="card-body">
                   <div class="d-flex">
                     <p class="d-flex flex-column">
-                      <span class="text-bold text-lg">500</span>
+                      <span class="text-bold text-lg">{{all_books}}</span>
                       <span>اجمالي عدد الكتب</span>
                     </p>  
                   </div>
@@ -41,6 +41,42 @@
             </div>
             <!-- /.col-md-6 -->
             
+            {% for book in books %}
+            {% comment %} for Sold {% endcomment %}
+              {% if book.price != None %}
+                {% if book.status == 'sold' %}
+                  <p class="totalprice">{{book.price}}</p>
+                {% endif %}
+              {% endif %}
+              {% comment %} for rented {% endcomment %}
+              {% if book.total_retal != None %}
+                {% if book.status == 'rented' %}
+                  <p class="totalprice">{{book.total_retal}}</p>
+                {% endif %}
+              {% endif %}
+            {% endfor %}
+
+            {% comment %} for statistics - rented {% endcomment %}
+            {% for book in books %}
+              {% if book.status == 'rented' %}
+                {% if book.total_retal != None %}
+                  <p class="totalrental">{{book.total_retal}}</p>
+                {% endif %}
+              {% endif %}
+            {% endfor %}
+            <p class="salaryrental"></p>
+
+            {% comment %} for statistics - sold{% endcomment %}
+            {% for book in books %}
+              {% if book.status == 'sold' %}
+                {% if book.price != None %}
+                  <p class="totalsold">{{book.price}}</p>
+                {% endif %}
+              {% endif %}
+            {% endfor %}
+            <p class="salarysold"></p>
+
+
             <div class="col-lg-6">
               <div class="card">
                 <div class="card-header border-0">
@@ -51,7 +87,7 @@
                 <div class="card-body">
                   <div class="d-flex">
                     <p class="d-flex flex-column">
-                      <span id="totalsalarys" class="text-bold text-lg">$250</span><br></p>
+                      <span id="totalsalarys" class="text-bold text-lg">$</span><br></p>
                   </div>
                   <!-- /.d-flex -->
   
@@ -110,8 +146,8 @@
           <div class="row justify-content-center mb-3">
             <div class="col-4 ">
               <ul class="nav">
-                {% for category in categories %}
-                  <li class="nav-item ">
+                {% for category in categories|slice:'6' %}
+                  <li class="nav-item category{{category.id}}">
                     <a id="" class="nav-link bg-primary" href="#">{{category.name}}</a>
                   </li>
                 {% endfor %}
@@ -123,7 +159,7 @@
           <div class="row">
           {% for book in books %}
           <!-- الكتب -->
-              <div id="" class="col-md-4">
+              <div id="" class="col-md-4 bookHide book{{book.category_id.id}} book{{book.status}}">
                   <!-- Widget: user widget style 1 -->
                 <div id="" class="card card-widget widget-user ">
                   <!-- Add the bg color to the header using any of the bg-* classes -->
